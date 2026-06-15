@@ -43,7 +43,7 @@ public class ShootSubsystem extends SubsystemBase {
     }
   };
 
-  private double hoodPosition = 0.078;
+  private double hoodPosition = 0.165;
 
   public ShootSubsystem() {
     shootMotor = new SparkFlex(shooterMotorCANId, MotorType.kBrushless);
@@ -62,6 +62,7 @@ public class ShootSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     setHood();
+
   }
 
   private void setHood() {
@@ -90,10 +91,6 @@ public class ShootSubsystem extends SubsystemBase {
     return shootMotor.getBusVoltage();
   }
 
-  // public double getShooterVelocity(int shooter) {
-  // return shootMotor.getEncoder().getVelocity();
-  // }
-
   public void setShootSpeed(double speed) {
     shootMotor.set(speed);
   }
@@ -102,10 +99,14 @@ public class ShootSubsystem extends SubsystemBase {
     this.velocity = velocity;
   }
 
+  public void setVoltage(double volts) {
+    shootMotor.setVoltage(volts);
+  }
+
   // Feed Forward calculation based on target velocity and empirically determined kFF constant.
   private double kFF = 1.05 * 12.0 / 6784;
 
-   private double calculateFeedForward() {
-         return kFF * velocity;
+  private double calculateFeedForward() {
+    return kFF * velocity;
   }
 }
